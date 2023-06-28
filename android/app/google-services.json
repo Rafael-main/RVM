@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "51961660949",
+    "project_id": "rvm-fire",
+    "storage_bucket": "rvm-fire.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:51961660949:android:2da7bbe9d7f5def65fb01c",
+        "android_client_info": {
+          "package_name": "com.example.abc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "51961660949-m2aa026q10mqsqncgvjrocfuikbno2dc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAcWuRfle-wK_XLDjz1QLrpXgwgUB42xd8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "51961660949-m2aa026q10mqsqncgvjrocfuikbno2dc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
