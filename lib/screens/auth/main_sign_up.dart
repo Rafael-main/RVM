@@ -34,19 +34,19 @@ class _SignUpPageState extends State<SignUpPage> {
               width: 300,
               child: TextField(
                 controller: _usernameController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Username',
                   hintText: 'johndoe@email.com',
                 ),
               ),
             ),
-            SizedBox(height: 16),
-            Container(
+            const SizedBox(height: 16),
+            SizedBox(
               width: 300,
               child: TextField(
                 controller: _passwordController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Password',
                   hintText: '*****',
@@ -54,8 +54,8 @@ class _SignUpPageState extends State<SignUpPage> {
                 obscureText: true,
               ),
             ),
-            SizedBox(height: 16),
-            Container(
+            const SizedBox(height: 16),
+            SizedBox(
               width: 300,
               height: 45,
               child: ElevatedButton(
@@ -65,11 +65,11 @@ class _SignUpPageState extends State<SignUpPage> {
                   // When user is valid then proceed to home
                   Navigator.pushNamedAndRemoveUntil(context, '/home', (_) => false);
                 },
-                child: Text('Sign Up'),
+                child: const Text('Sign Up'),
               ),
             ),
-            SizedBox(height: 16),
-            Container(
+            const SizedBox(height: 16),
+            SizedBox(
               width: 300,
               height: 45,
               child: ElevatedButton.icon(
@@ -84,7 +84,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   googleSignInProv.googleLogIn();
 
                 },
-                label: Text('Sign up with Google'),
+                label: const Text('Sign up with Google'),
               ),
             ),
           ],

@@ -1,6 +1,8 @@
 import 'package:abc/provider/fireauth_provider.dart';
+import 'package:abc/screens/about/main_about.dart';
 import 'package:abc/screens/auth/main_auth.dart';
 import 'package:abc/screens/home/main_home.dart';
+import 'package:abc/screens/profile/main_profile.dart';
 import 'package:abc/wrapper/main_wrapper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +29,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'HAHAHA',
+        title: 'RVM',
         theme: ThemeData(
           // This is the theme of your application.
           //`
@@ -38,12 +40,14 @@ class MyApp extends StatelessWidget {
           // or simply save your changes to "hot reload" in a Flutter IDE).
           // Notice that the counter didn't reset back to zero; the application
           // is not restarted.
-          primarySwatch: Colors.blueGrey,
+          primarySwatch: Colors.red,
         ),
         initialRoute: '/',
         routes: {
           // '/':(context) => LoginPage(),
-          '/home':(context) => const Home(title: "ABC")
+          '/home':(context) => const Home(title: "RVM"),
+          '/profile': (context) => const Profile(),
+          '/about': (context) => const About()
         },
         // home: const Home  (title: 'Flutter Demo Home Page'),
         home: const Wrapper()

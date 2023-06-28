@@ -1,11 +1,14 @@
 
 
 import 'package:abc/provider/fireauth_provider.dart';
+import 'package:abc/screens/profile/main_profile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:abc/models/user/userr.dart';
+
+import '../about/main_about.dart';
 
 
 class Home extends StatefulWidget {
@@ -59,7 +62,7 @@ class _HomeState extends State<Home> {
           children: [
             DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.blue,
+                color: Colors.red[800],
               ),
               // // child: Center(child: Text('Drawer Header')),
               // child: Center(
@@ -95,27 +98,45 @@ class _HomeState extends State<Home> {
                 // Update the state of the app
                 // ...
                 // Then close the drawer
-                Navigator.pop(context);
+                Navigator.pushNamedAndRemoveUntil(context, '/profile', (_) => false);
+                // Navigator.push(
+                //   context, MaterialPageRoute(
+                //     builder: (context) {
+                //       return const Profile();
+                //     }
+                //   )
+                // );
+                // Navigator.pop(context);
               },
             ),
             ListTile(
               leading: const Icon(Icons.auto_awesome_sharp),
               title: const Text('Leaderboards'),
               onTap: () {
-                // Update the state of the app
-                // ...
-                // Then close the drawer
-                Navigator.pop(context);
+                Navigator.push(
+                  context, MaterialPageRoute(
+                    builder: (context) {
+                      return Home(title: 'RVM',);
+                    }
+                  )
+                );
+      
               },
             ),
             ListTile(
               leading: const Icon(Icons.bug_report_outlined),
               title: const Text('About the app'),
               onTap: () {
-                // Update the state of the app
+                Navigator.push(
+                  context, MaterialPageRoute(
+                    builder: (context) {
+                      return const About();
+                    }
+                  )
+                );// Update the state of the app
                 // ...
                 // Then close the drawer
-                Navigator.pop(context);
+                // Navigator.pop(context);
               },
             ),
           ],
