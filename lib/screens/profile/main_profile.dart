@@ -107,10 +107,12 @@ class _ProfileState extends State<Profile> {
       ),
       body: Container(
         color: Colors.white,
-        child: ListView(
-          children: const [
-            Text('sdsd')
-          ]
+        child: Center(
+          child: ListView(
+            children: const [
+              Text('sdsd')
+            ]
+          ),
         ),
       ),
     );

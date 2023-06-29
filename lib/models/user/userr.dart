@@ -8,17 +8,21 @@ class Userr {
       required this.id,
       required this.imageUrl,
       required this.points,
+      required this.public,
       required this.rank,
       required this.rfidtag,
       required this.username,
+      required this.name,
     });
 
     String id;
     String imageUrl;
     int points;
-    String rank;
+    bool public;
+    int rank;
     String rfidtag;   
     String username; 
+    String name; 
 
 
     factory Userr.fromJson(Map<String, dynamic> json) => _$UserrFromJson(json);

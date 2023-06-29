@@ -10,16 +10,20 @@ Userr _$UserrFromJson(Map<String, dynamic> json) => Userr(
       id: json['id'] as String,
       imageUrl: json['imageUrl'] as String,
       points: json['points'] as int,
-      rank: json['rank'] as String,
+      public: json['public'] as bool,
+      rank: json['rank'] as int,
       rfidtag: json['rfidtag'] as String,
       username: json['username'] as String,
+      name: json['name'] as String,
     );
 
 Map<String, dynamic> _$UserrToJson(Userr instance) => <String, dynamic>{
       'id': instance.id,
       'imageUrl': instance.imageUrl,
       'points': instance.points,
+      'public': instance.public,
       'rank': instance.rank,
       'rfidtag': instance.rfidtag,
       'username': instance.username,
+      'name': instance.name,
     };
