@@ -29,24 +29,24 @@ class _SignInPageState extends State<SignInPage> {
             //   'assets/logo.png',
             //   height: 120,
             // ),
-            SizedBox(height: 32),
-            Container(
+            const SizedBox(height: 32),
+            SizedBox(
               width: 300,
               child: TextField(
                 controller: _usernameSignInController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Username',
                   hintText: 'johndoe@email.com',
                 ),
               ),
             ),
-            SizedBox(height: 16),
-            Container(
+            const SizedBox(height: 16),
+            SizedBox(
               width: 300,
               child: TextField(
                 controller: _passwordSignInController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Password',
                   hintText: '*****',
@@ -54,8 +54,8 @@ class _SignInPageState extends State<SignInPage> {
                 obscureText: true,
               ),
             ),
-            SizedBox(height: 16),
-            Container(
+            const SizedBox(height: 16),
+            SizedBox(
               width: 300,
               height: 45,
               child: ElevatedButton(
@@ -65,11 +65,11 @@ class _SignInPageState extends State<SignInPage> {
                   // When user is valid then proceed to home
                   Navigator.pushNamedAndRemoveUntil(context, '/home', (_) => false);
                 },
-                child: Text('Sign In'),
+                child: const Text('Sign In'),
               ),
             ),
-            SizedBox(height: 16),
-            Container(
+            const SizedBox(height: 16),
+            SizedBox(
               width: 300,
               height: 45,
               child: ElevatedButton.icon(
@@ -84,7 +84,7 @@ class _SignInPageState extends State<SignInPage> {
                   googleSignInProv.googleLogIn();
 
                 },
-                label: Text('Sign in with Google'),
+                label: const Text('Sign in with Google'),
               ),
             ),
           ],

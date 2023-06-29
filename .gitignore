@@ -1,3 +1,5 @@
+/lib/models/*/*.g.dart 
+
 # Miscellaneous
 *.class
 *.log

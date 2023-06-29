@@ -32,6 +32,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   Stream<List<Userr>> readUsers() => FirebaseFirestore.instance
     .collection('Users')
+    .orderBy('rank')
     .snapshots()
     .map((snapshot) => snapshot.docs.map((doc) => Userr.fromJson(doc.data())).toList());
 
@@ -45,7 +46,7 @@ class _HomeState extends State<Home> {
       // // ),
     title: Text('Place ${userr.username}'),
     subtitle: Text('Rank # ${userr.rank}'),
-    trailing: Text('${userr.rank} points'),
+    trailing: Text('${userr.points} points'),
     ),
   );
  

@@ -16,7 +16,11 @@ class Wrapper extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasData) {
-            return const Home(title: 'ABC');
+            final currUser = FirebaseAuth.instance.currentUser!;
+            print(currUser.displayName);
+            print(currUser.uid);
+            
+            return const Home(title: 'RVM');
           } else if (snapshot.hasError) {
             return const Center(child: Text('Something Went Wrong!'),);
           } else {

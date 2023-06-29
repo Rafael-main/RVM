@@ -1,6 +1,5 @@
 import 'package:abc/utils/index.dart';
 
-import 'package:abc/screens/about/main_about.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -107,12 +106,10 @@ class _ProfileState extends State<Profile> {
       ),
       body: Container(
         color: Colors.white,
-        child: Center(
-          child: ListView(
-            children: const [
-              Text('sdsd')
-            ]
-          ),
+        child: ListView(
+          children: const [
+            Text('sdsd')
+          ]
         ),
       ),
     );
