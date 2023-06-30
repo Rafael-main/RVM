@@ -8,7 +8,9 @@ class Profile extends StatefulWidget {
   State<Profile> createState() => _ProfileState();
 }
 
-class _ProfileState extends State<Profile> {
+class _ProfileState extends State<Profile> { 
+  final TextEditingController _usernameSignInController = TextEditingController();
+  final TextEditingController _passwordSignInController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final currUser = FirebaseAuth.instance.currentUser!;
@@ -105,10 +107,55 @@ class _ProfileState extends State<Profile> {
         ),
       ),
       body: Container(
+        padding: EdgeInsets.all(10.0),
         color: Colors.white,
         child: ListView(
-          children: const [
-            Text('sdsd')
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Column(
+                  children: [
+                    Text('Rank'),
+                    Text('# 1'),
+                  ],
+                ),
+                Column(
+                  children: [
+                    Text('Points'),
+                    Text('15'),
+                  ],
+                )
+              ],
+            ),
+            const SizedBox(height: 32),
+            Text('asad00'),
+            SizedBox(
+              width: 300,
+              child: TextField(
+                controller: _usernameSignInController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Username',
+                  hintText: 'johndoe@email.com',
+                ),
+              ),
+            ),
+            const SizedBox(height: 32),
+            SizedBox(
+              width: 300,
+              child: TextField(
+                controller: _passwordSignInController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Password',
+                  hintText: '*****',
+                ),
+                obscureText: true,
+              ),
+            ),
+            const SizedBox(height: 16),
+            
           ]
         ),
       ),
