@@ -11,6 +11,7 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> { 
   final TextEditingController _usernameSignInController = TextEditingController();
   final TextEditingController _passwordSignInController = TextEditingController();
+  bool publicAccount = false;
   @override
   Widget build(BuildContext context) {
     final currUser = FirebaseAuth.instance.currentUser!;
@@ -117,13 +118,25 @@ class _ProfileState extends State<Profile> {
                 Column(
                   children: [
                     Text('Rank'),
-                    Text('# 1'),
+                    Text(
+                      '# 1',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 42
+                      ),
+                    ),
                   ],
                 ),
                 Column(
                   children: [
                     Text('Points'),
-                    Text('15'),
+                    Text(
+                      '15',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 42
+                      ),
+                    ),
                   ],
                 )
               ],
@@ -155,6 +168,25 @@ class _ProfileState extends State<Profile> {
               ),
             ),
             const SizedBox(height: 16),
+
+            SizedBox(
+              child: Row(
+                children: [
+                  Text('Public:'),
+                  Switch(
+                    // This bool value toggles the switch.
+                    value: publicAccount,
+                    activeColor: Colors.red,
+                    onChanged: (bool value) {
+                      // This is called when the user toggles the switch.
+                      setState(() {
+                        publicAccount = value;
+                      });
+                    },
+                  )
+                ],
+              ),
+            )
             
           ]
         ),

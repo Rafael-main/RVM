@@ -1,4 +1,5 @@
 import 'package:abc/provider/fireauth_provider.dart';
+import 'package:abc/provider/user_provider.dart';
 import 'package:abc/screens/about/main_about.dart';
 import 'package:abc/screens/auth/main_auth.dart';
 import 'package:abc/screens/home/main_home.dart';
@@ -25,7 +26,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => GoogleSignInProvider())
+        ChangeNotifierProvider(create: (_) => GoogleSignInProvider()),
+        ChangeNotifierProvider(create: (_) => UserProvider())
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
