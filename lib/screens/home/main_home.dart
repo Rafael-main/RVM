@@ -32,6 +32,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   Stream<List<Userr>> readUsers() => FirebaseFirestore.instance
     .collection('Users')
+    .where("public", isEqualTo: true)
     .orderBy('rank')
     .snapshots()
     .map((snapshot) => snapshot.docs.map((doc) => Userr.fromJson(doc.data())).toList());
