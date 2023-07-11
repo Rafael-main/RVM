@@ -178,9 +178,11 @@ class _ProfileState extends State<Profile> {
                     value: publicAccount,
                     activeColor: Colors.red,
                     onChanged: (bool value) {
+                      print(value);
                       // This is called when the user toggles the switch.
                       setState(() {
                         publicAccount = value;
+
                       });
                     },
                   )

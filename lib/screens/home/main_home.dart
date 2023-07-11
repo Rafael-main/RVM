@@ -1,5 +1,6 @@
 
 
+import 'package:abc/models/leaderboard/leaderboard.dart';
 import 'package:abc/provider/fireauth_provider.dart';
 import 'package:abc/screens/profile/main_profile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -30,14 +31,13 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  Stream<List<Userr>> readUsers() => FirebaseFirestore.instance
-    .collection('Users')
-    .where("public", isEqualTo: true)
-    .orderBy('rank')
+  Stream<List<Leaderboard>> readUsers() => FirebaseFirestore.instance
+    .collection('Leaderboard')
+    .orderBy('points')
     .snapshots()
-    .map((snapshot) => snapshot.docs.map((doc) => Userr.fromJson(doc.data())).toList());
+    .map((snapshot) => snapshot.docs.map((doc) => Leaderboard.fromJson(doc.data())).toList());
 
-  Widget buildBoard(Userr userr) => Card(
+  Widget buildBoard(Leaderboard ranks, indexRank) => Card(
     child: ListTile(
     leading: FlutterLogo(),
       // // leading: Container(
@@ -45,9 +45,9 @@ class _HomeState extends State<Home> {
       // //   width: 100,
       // //   child: const Placeholder()
       // // ),
-    title: Text('Place ${userr.username}'),
-    subtitle: Text('Rank # ${userr.rank}'),
-    trailing: Text('${userr.points} points'),
+    title: Text('Place ${ranks.username}'),
+    subtitle: Text('Rank # $indexRank'),
+    trailing: Text('${ranks.points} points'),
     ),
   );
  
@@ -150,7 +150,7 @@ class _HomeState extends State<Home> {
           if (snapshot.hasError){
             return Center(child: Text('Something Went wrong... ${snapshot.error}'));
           } else if (snapshot.hasData) {
-            final userrrs = snapshot.data!;
+            final rankings = snapshot.data!;
             return CustomScrollView(
               slivers: [
                 SliverAppBar(
@@ -200,10 +200,10 @@ class _HomeState extends State<Home> {
                 SliverList(
                   delegate: SliverChildBuilderDelegate(
                     (context, index) {
-                      return buildBoard(userrrs[index]);
+                      return buildBoard(rankings[index], index);
                       // return Text(userrrs[index].id);
                     },
-                    childCount: userrrs.length,
+                    childCount: rankings.length,
                   )
                 ),
                 
