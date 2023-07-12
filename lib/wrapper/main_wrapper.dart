@@ -23,11 +23,11 @@ class Wrapper extends StatelessWidget {
             print(currUser.displayName);
             print(currUser.uid);
 
-            Stream<List<Userr>> readUsers() => FirebaseFirestore.instance
-            .collection('Leaderboard')
-            .orderBy('points')
-            .snapshots()
-            .map((snapshot) => snapshot.docs.map((doc) => Userr.fromJson(doc.data())).toList());
+            // Stream<List<Userr>> readUsers() => FirebaseFirestore.instance
+            // .collection('Leaderboard')
+            // .orderBy('points')
+            // .snapshots()
+            // .map((snapshot) => snapshot.docs.map((doc) => Userr.fromJson(doc.data())).toList());
             
             return const Home(title: 'RVM');
           } else if (snapshot.hasError) {

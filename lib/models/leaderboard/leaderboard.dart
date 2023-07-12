@@ -6,17 +6,17 @@ part 'leaderboard.g.dart';
 class Leaderboard {
     Leaderboard({
       required this.docid,
-      required this.userid,
       required this.imageUrl,
       required this.points,
+      required this.userid,
       required this.username,
     });
 
-    String docid;
-    String imageUrl;
-    int points;  
-    String username; 
-    String userid; 
+    String? docid;
+    String? imageUrl;
+    int? points;  
+    String? username; 
+    String? userid; 
 
 
     factory Leaderboard.fromJson(Map<String, dynamic> json) => _$LeaderboardFromJson(json);
