@@ -1,15 +1,18 @@
-import 'package:abc/provider/fireauth_pass_login_provider.dart';
-import 'package:abc/provider/fireauth_provider.dart';
-import 'package:flutter/material.dart';
+import 'package:abc/provider/user_provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
-class SignInPage extends StatefulWidget {
+import '../../provider/fireauth_pass_login_provider.dart';
+import '../../provider/fireauth_provider.dart';
+
+class Register extends StatefulWidget {
+  const Register({super.key});
+
   @override
-  _SignInPageState createState() => _SignInPageState();
+  State<Register> createState() => _RegisterState();
 }
 
-class _SignInPageState extends State<SignInPage> {
+class _RegisterState extends State<Register> {
   final TextEditingController _usernameSignInController = TextEditingController();
   final TextEditingController _passwordSignInController = TextEditingController();
 
@@ -65,10 +68,13 @@ class _SignInPageState extends State<SignInPage> {
 
                   // When user is valid then proceed to home
                   final passSignInProv = Provider.of<PassSignInProvider>(context, listen: false);
-                  passSignInProv.passLogin(emailAddress: _usernameSignInController.text, password: _passwordSignInController.text);
+                  passSignInProv.createUserWithPasswordSignIn(
+                    emailAddress: _usernameSignInController.text,
+                    password: _passwordSignInController.text
+                  );
                   // Navigator.pushNamedAndRemoveUntil(context, '/home', (_) => false);
                 },
-                child: const Text('Sign In'),
+                child: const Text('Sign Up'),
               ),
             ),
             const SizedBox(height: 16),
@@ -87,7 +93,7 @@ class _SignInPageState extends State<SignInPage> {
                   googleSignInProv.googleLogIn();
 
                 },
-                label: const Text('Sign in with Google'),
+                label: const Text('Sign up with Google'),
               ),
             ),
             
@@ -97,8 +103,8 @@ class _SignInPageState extends State<SignInPage> {
               // height: 45,
               child: Center(
                 child: GestureDetector(
-                  onTap: () => Navigator.pushReplacementNamed(context, '/register'),
-                  child: const Text("Don't have an account? Register here"),
+                  onTap: () => Navigator.pushReplacementNamed(context, '/log'),
+                  child: const Text("Already have an account? Login here"),
                 ),
               )
             ),

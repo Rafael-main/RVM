@@ -1,6 +1,4 @@
 
-import 'dart:html';
-
 import 'package:abc/utils/index.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -8,10 +6,15 @@ import 'package:google_sign_in/google_sign_in.dart';
 class PassSignInProvider extends ChangeNotifier {
   Future createUserWithPasswordSignIn({emailAddress='', password=''}) async {
     try {
-      final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailAddress,
         password: password,
-      );
+      ).then((UserCredential val) async {
+
+        // await FirebaseAuth.instance.signInWithCredential(val);
+        print(val);
+
+      });
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
@@ -30,12 +33,14 @@ class PassSignInProvider extends ChangeNotifier {
 
   }) async {
     try {
+      print(emailAddress);
+      print(password);
       // final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
       //   email: emailAddress,
       //   password: password
       // );
       final credential = EmailAuthProvider.credential(email: emailAddress, password: password);
-      await FirebaseAuth.instance.signInWithCredential(credential);
+      await FirebaseAuth.instance.signInWithCredential(credential).then((value) => print(value.toString()));
       notifyListeners();
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {

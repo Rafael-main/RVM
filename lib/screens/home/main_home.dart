@@ -2,12 +2,10 @@
 
 import 'package:abc/models/leaderboard/leaderboard.dart';
 import 'package:abc/provider/fireauth_provider.dart';
-import 'package:abc/screens/profile/main_profile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:abc/models/user/userr.dart';
 
 import '../about/main_about.dart';
 
@@ -39,7 +37,7 @@ class _HomeState extends State<Home> {
 
   Widget buildBoard(Leaderboard ranks, indexRank) => Card(
     child: ListTile(
-    leading: FlutterLogo(),
+    leading: const FlutterLogo(),
       // // leading: Container(
       // //   padding: const EdgeInsets.all(8),
       // //   width: 100,

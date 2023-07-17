@@ -1,6 +1,4 @@
 
-import 'dart:html';
-
 import 'package:abc/utils/index.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -24,7 +22,7 @@ class GoogleSignInProvider extends ChangeNotifier {
       idToken: googleAuth.idToken
     );
 
-    await FirebaseAuth.instance.signInWithCredential(credential);
+    await FirebaseAuth.instance.signInWithCredential(credential).then((value) => print('${value} AWAAA'));
 
     notifyListeners();
   }

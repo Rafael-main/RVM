@@ -4,6 +4,7 @@ import 'package:abc/screens/about/main_about.dart';
 import 'package:abc/screens/auth/main_auth.dart';
 import 'package:abc/screens/home/main_home.dart';
 import 'package:abc/screens/profile/main_profile.dart';
+import 'package:abc/screens/register/register.dart';
 import 'package:abc/wrapper/main_wrapper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -47,15 +48,15 @@ class MyApp extends StatelessWidget {
           // is not restarted.
           primarySwatch: Colors.red,
         ),
-        initialRoute: '/',
+        initialRoute: '/log',
         routes: {
-          // '/':(context) => LoginPage(),
+          // '/':(context) => const Wrapper(),
+          '/log':(context) => SignInPage(),
           '/home':(context) => const Home(title: "RVM"),
           '/profile': (context) => const Profile(),
-          '/about': (context) => const About()
+          '/about': (context) => const About(),
+          '/register': (context) => const Register()
         },
-        // home: const Home  (title: 'Flutter Demo Home Page'),
-        home: const Wrapper()
       ),
     );
   }
