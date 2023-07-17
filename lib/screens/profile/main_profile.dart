@@ -1,6 +1,9 @@
+import 'package:abc/provider/user_provider.dart';
 import 'package:abc/utils/index.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
 class Profile extends StatefulWidget {
   const Profile({super.key});
 
@@ -9,11 +12,20 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> { 
-  final TextEditingController _usernameSignInController = TextEditingController();
-  final TextEditingController _passwordSignInController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   bool publicAccount = false;
+
+  void updatePublicRecord(String docID, Map<String,dynamic> data){
+    FirebaseFirestore.instance
+      .collection("Users")
+      .doc(docID)
+      .update(data).then((value) => null);
+  }
+
   @override
   Widget build(BuildContext context) {
+    var userProv = context.watch<UserProvider>().currUser;
     final currUser = FirebaseAuth.instance.currentUser!;
     return Scaffold(
       appBar: AppBar(
@@ -117,10 +129,10 @@ class _ProfileState extends State<Profile> {
               children: [
                 Column(
                   children: [
-                    Text('Rank'),
+                    const Text('Rank'),
                     Text(
-                      '# 1',
-                      style: TextStyle(
+                      '${userProv!.rank}',
+                      style: const TextStyle(
                         fontWeight: FontWeight.w500,
                         fontSize: 42
                       ),
@@ -129,10 +141,10 @@ class _ProfileState extends State<Profile> {
                 ),
                 Column(
                   children: [
-                    Text('Points'),
+                    const Text('Points'),
                     Text(
-                      '15',
-                      style: TextStyle(
+                      '${userProv.points}',
+                      style: const TextStyle(
                         fontWeight: FontWeight.w500,
                         fontSize: 42
                       ),
@@ -142,15 +154,13 @@ class _ProfileState extends State<Profile> {
               ],
             ),
             const SizedBox(height: 32),
-            Text('asad00'),
+            const Text('Name'),
             SizedBox(
               width: 300,
               child: TextField(
-                controller: _usernameSignInController,
+                controller: _nameController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
-                  labelText: 'Username',
-                  hintText: 'johndoe@email.com',
                 ),
               ),
             ),
@@ -158,11 +168,9 @@ class _ProfileState extends State<Profile> {
             SizedBox(
               width: 300,
               child: TextField(
-                controller: _passwordSignInController,
+                controller: _emailController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
-                  labelText: 'Password',
-                  hintText: '*****',
                 ),
                 obscureText: true,
               ),
@@ -172,16 +180,15 @@ class _ProfileState extends State<Profile> {
             SizedBox(
               child: Row(
                 children: [
-                  Text('Public:'),
+                  const Text('Public:'),
                   Switch(
                     // This bool value toggles the switch.
                     value: publicAccount,
                     activeColor: Colors.red,
                     onChanged: (bool value) {
                       if (value == true) {
-                        
-                      } else {
-
+                        Map<String, dynamic> changeToPublic = {"public":value};
+                        updatePublicRecord(userProv.id, changeToPublic);
                       }
                       print(value);
                       // This is called when the user toggles the switch.

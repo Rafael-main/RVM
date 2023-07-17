@@ -1,8 +1,10 @@
+import 'package:abc/provider/user_provider.dart';
 import 'package:abc/screens/auth/main_auth.dart';
 import 'package:abc/screens/rfid_screen/rfid_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:abc/utils/index.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
 
 import '../models/user/userr.dart';
 
@@ -44,6 +46,7 @@ class Wrapper extends StatelessWidget {
       body: StreamBuilder<User?>(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder:(context, snapshot) {
+          var userProv = Provider.of<UserProvider>(context, listen: false);
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasData) {
@@ -55,10 +58,20 @@ class Wrapper extends StatelessWidget {
               (DocumentSnapshot doc) {
                 if (doc.exists){
                   final data = doc.data() as Map<String, dynamic>;
-                  Userr.fromJson(data);
+                  userProv.setCurrUser = Userr.fromJson(data);
                   return const Home(title: 'RVM');
                 } else {
-                  Userr data = Userr(id: currUser.uid, imageUrl: currUser.photoURL ?? '', points: 0, public: true, rank: 999, rfidtag: '', username: currUser.email ?? '', name: currUser.displayName ?? '');
+                  Userr data = Userr(
+                    id: currUser.uid, 
+                    imageUrl: currUser.photoURL ?? '', 
+                    points: 0, 
+                    public: true, 
+                    rank: 999, 
+                    rfidtag: '', 
+                    username: currUser.email ?? '',
+                    name: currUser.displayName ?? ''
+                  );
+                  userProv.setCurrUser = data;
                   db
                   .collection("Users")
                   .doc(currUser.uid)
