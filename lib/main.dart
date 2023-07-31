@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => GoogleSignInProvider()),
+        ChangeNotifierProvider(create: (_) => FirebaseAuthProvider()),
         ChangeNotifierProvider(create: (_) => UserProvider()),
         ChangeNotifierProvider(create: (_) => PassSignInProvider())
       ],
@@ -48,9 +48,9 @@ class MyApp extends StatelessWidget {
           // is not restarted.
           primarySwatch: Colors.red,
         ),
-        initialRoute: '/log',
+        initialRoute: '/',
         routes: {
-          // '/':(context) => const Wrapper(),
+          '/':(context) => const Wrapper(),
           '/log':(context) => SignInPage(),
           '/home':(context) => const Home(title: "RVM"),
           '/profile': (context) => const Profile(),

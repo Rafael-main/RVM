@@ -54,11 +54,11 @@ class _ProfileState extends State<Profile> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(60),
                       // child: FlutterLogo(),
-                      child: CircleAvatar(
+                      child: currUser.photoURL != null ?  CircleAvatar(
                         backgroundImage: NetworkImage(
-                          currUser.photoURL!
+                          currUser.photoURL ?? ''
                         ),
-                      )
+                      ) : FlutterLogo()
                     ),
                   ),
                   Text(currUser.displayName!),
@@ -119,90 +119,95 @@ class _ProfileState extends State<Profile> {
           ],
         ),
       ),
-      body: Container(
-        padding: EdgeInsets.all(10.0),
-        color: Colors.white,
-        child: ListView(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Column(
-                  children: [
-                    const Text('Rank'),
-                    Text(
-                      '${userProv!.rank}',
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 42
-                      ),
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    const Text('Points'),
-                    Text(
-                      '${userProv.points}',
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 42
-                      ),
-                    ),
-                  ],
-                )
-              ],
-            ),
-            const SizedBox(height: 32),
-            const Text('Name'),
-            SizedBox(
-              width: 300,
-              child: TextField(
-                controller: _nameController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                ),
-              ),
-            ),
-            const SizedBox(height: 32),
-            SizedBox(
-              width: 300,
-              child: TextField(
-                controller: _emailController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                ),
-                obscureText: true,
-              ),
-            ),
-            const SizedBox(height: 16),
-
-            SizedBox(
-              child: Row(
+      body: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.all(10.0),
+          color: Colors.white,
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  const Text('Public:'),
-                  Switch(
-                    // This bool value toggles the switch.
-                    value: publicAccount,
-                    activeColor: Colors.red,
-                    onChanged: (bool value) {
-                      if (value == true) {
-                        Map<String, dynamic> changeToPublic = {"public":value};
-                        updatePublicRecord(userProv.id, changeToPublic);
-                      }
-                      print(value);
-                      // This is called when the user toggles the switch.
-                      setState(() {
-                        publicAccount = value;
-
-                      });
-                    },
+                  Column(
+                    children: [
+                      const Text('Rank'),
+                      Text(
+                        // '${userProv!.rank}',
+                        '',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 42
+                        ),
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      const Text('Points'),
+                      Text(
+                        // '${userProv.points}',
+                        '',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 42
+                        ),
+                      ),
+                    ],
                   )
                 ],
               ),
-            )
-            
-          ]
+              const SizedBox(height: 32),
+              const Text('Name'),
+              SizedBox(
+                width: 300,
+                child: TextField(
+                  controller: _nameController,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 32),
+              SizedBox(
+                width: 300,
+                child: TextField(
+                  controller: _emailController,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                  ),
+                  obscureText: true,
+                ),
+              ),
+              const SizedBox(height: 16),
+      
+              SizedBox(
+                child: Row(
+                  children: [
+                    const Text('Public:'),
+                    Switch(
+                      // This bool value toggles the switch.
+                      value: publicAccount,
+                      activeColor: Colors.red,
+                      onChanged: (bool value) {
+                        if (value == true) {
+                          Map<String, dynamic> changeToPublic = {"public":value};
+                          // updatePublicRecord(userProv.id, changeToPublic);
+      
+                        }
+                        print(value);
+                        // This is called when the user toggles the switch.
+                        setState(() {
+                          publicAccount = value;
+      
+                        });
+                      },
+                    )
+                  ],
+                ),
+              )
+              
+            ]
+          ),
         ),
       ),
     );

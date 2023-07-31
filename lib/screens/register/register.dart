@@ -89,8 +89,11 @@ class _RegisterState extends State<Register> {
                 icon: const FaIcon(FontAwesomeIcons.google),
                 onPressed: () {
                   // Perform sign in with Google here
-                  final googleSignInProv = Provider.of<GoogleSignInProvider>(context, listen: false);
+                  final googleSignInProv = Provider.of<FirebaseAuthProvider>(context, listen: false);
                   googleSignInProv.googleLogIn();
+
+                  
+                  Navigator.pushReplacementNamed(context, '/log');
 
                 },
                 label: const Text('Sign up with Google'),

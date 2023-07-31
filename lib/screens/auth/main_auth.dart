@@ -67,6 +67,7 @@ class _SignInPageState extends State<SignInPage> {
                   final passSignInProv = Provider.of<PassSignInProvider>(context, listen: false);
                   passSignInProv.passLogin(emailAddress: _usernameSignInController.text, password: _passwordSignInController.text);
                   // Navigator.pushNamedAndRemoveUntil(context, '/home', (_) => false);
+                  // Navigator.pushReplacementNamed(context, '/');
                 },
                 child: const Text('Sign In'),
               ),
@@ -83,8 +84,11 @@ class _SignInPageState extends State<SignInPage> {
                 icon: const FaIcon(FontAwesomeIcons.google),
                 onPressed: () {
                   // Perform sign in with Google here
-                  final googleSignInProv = Provider.of<GoogleSignInProvider>(context, listen: false);
+                  final googleSignInProv = Provider.of<FirebaseAuthProvider>(context, listen: false);
                   googleSignInProv.googleLogIn();
+
+                  
+                  Navigator.pushReplacementNamed(context, '/');
 
                 },
                 label: const Text('Sign in with Google'),

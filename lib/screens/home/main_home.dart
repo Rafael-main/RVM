@@ -53,6 +53,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     final currUser = FirebaseAuth.instance.currentUser!;
 
+    FirebaseAuthProvider fireAuthProv = Provider.of<FirebaseAuthProvider>(context, listen: false);
 
     return Scaffold(
       drawer: Drawer(
@@ -139,6 +140,14 @@ class _HomeState extends State<Home> {
                 // Navigator.pop(context);
               },
             ),
+            ListTile(
+              leading: const Icon(Icons.bug_report_outlined),
+              title: const Text('L O G O U T'),
+              onTap: () {
+                fireAuthProv.logout(); 
+                Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
+              },
+            ),
           ],
         ),
       ),
@@ -167,7 +176,7 @@ class _HomeState extends State<Home> {
                     IconButton(onPressed: (){}, icon: Icon(Icons.notifications)),
                     TextButton(
                       onPressed: (){
-                        final authProvider = Provider.of<GoogleSignInProvider>(context, listen:false);
+                        final authProvider = Provider.of<FirebaseAuthProvider>(context, listen:false);
                         authProvider.logout();
                       }, 
                       child: Text('Logout')

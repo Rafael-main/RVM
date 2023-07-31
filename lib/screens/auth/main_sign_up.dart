@@ -80,7 +80,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 icon: const FaIcon(FontAwesomeIcons.google),
                 onPressed: () {
                   // // Perform sign in with Google here
-                  final googleSignInProv = Provider.of<GoogleSignInProvider>(context, listen: false);
+                  final googleSignInProv = Provider.of<FirebaseAuthProvider>(context, listen: false);
                   googleSignInProv.googleLogIn();
 
                 },
