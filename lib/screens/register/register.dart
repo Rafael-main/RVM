@@ -26,8 +26,7 @@ class _RegisterState extends State<Register> {
             Container(
               height: 120,
               width:  100,
-              color: Colors.black,
-              child: FlutterLogo()
+              child: Image.asset("assets/img/RVM Logo White BG.png")
             ),
             // Image.asset(
             //   'assets/logo.png',
@@ -40,7 +39,7 @@ class _RegisterState extends State<Register> {
                 controller: _usernameSignInController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
-                  labelText: 'Username',
+                  labelText: 'Email',
                   hintText: 'johndoe@email.com',
                 ),
               ),
@@ -73,6 +72,7 @@ class _RegisterState extends State<Register> {
                     password: _passwordSignInController.text
                   );
                   // Navigator.pushNamedAndRemoveUntil(context, '/home', (_) => false);
+                  Navigator.pushReplacementNamed(context, '/log');
                 },
                 child: const Text('Sign Up'),
               ),

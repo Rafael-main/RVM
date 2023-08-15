@@ -50,13 +50,6 @@ class _HomeState extends State<Home> {
           color: Colors.black87,
         )
       ),
-              
-      // leading: const FlutterLogo(),
-        // // leading: Container(
-        // //   padding: const EdgeInsets.all(8),
-        // //   width: 100,
-        // //   child: const Placeholder()
-        // // ),
       title: Text('Place ${ranks.username}'),
       subtitle: Text('Rank # $indexRank'),
       trailing: Text('${ranks.points} points'),
@@ -79,13 +72,6 @@ class _HomeState extends State<Home> {
               decoration: BoxDecoration(
                 color: Colors.red[800],
               ),
-              // // child: Center(child: Text('Drawer Header')),
-              // child: Center(
-              //   // child: Text('Drawer Header')
-              //   child: CircleAvatar(
-              //     child: FlutterLogo(),
-              //   ),
-              // ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -105,8 +91,8 @@ class _HomeState extends State<Home> {
                       ),
                     ),
                   ),
-                  Text(currUser.displayName!),
-                  Text(currUser.email!)
+                  Text(currUser.displayName ?? ''),
+                  Text(currUser.email ?? '')
                 ],
               )
             ),
@@ -152,10 +138,7 @@ class _HomeState extends State<Home> {
                       return const About();
                     }
                   )
-                );// Update the state of the app
-                // ...
-                // Then close the drawer
-                // Navigator.pop(context);
+                );
               },
             ),
             ListTile(

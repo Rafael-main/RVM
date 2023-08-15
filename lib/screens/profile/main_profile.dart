@@ -15,16 +15,46 @@ class _ProfileState extends State<Profile> {
   final TextEditingController _emailController = TextEditingController();
   bool publicAccount = false;
 
-  void updatePublicRecord(String docID, Map<String,dynamic> data){
-    FirebaseFirestore.instance
-      .collection("Users")
-      .doc(docID)
-      .update(data).then((value) => null);
-  }
+
 
   @override
   Widget build(BuildContext context) {
+    // current user logged in
     final currUser = FirebaseAuth.instance.currentUser!;
+
+    // update record 
+    Future<void> updatePublicRecord(String docID, Map<String,dynamic> data) async {
+      return await FirebaseFirestore.instance
+        .collection("Users")
+        .doc(docID)
+        .update(data).then((value) => null);
+    }
+
+    // read user profile
+    final Stream _usersStream = FirebaseFirestore.instance
+    .collection('Users')
+    .doc(currUser.uid)
+    .snapshots();
+
+    // add user to leaderboards 
+    Future<void> addLeaderboards(uid, data) {
+      // Call the user's CollectionReference to add a new user
+      CollectionReference users = FirebaseFirestore.instance.collection('Leaderboard');
+      return users
+        .doc(uid)
+        .set(data)
+          .then((value) => print("User Added"))
+          .catchError((error) => print("Failed to add user: $error"));
+    }
+    Future<void> deleteUserFromLeaderBoards(uid) {
+      CollectionReference users = FirebaseFirestore.instance.collection('users');
+      return users
+        .doc(uid)
+        .delete()
+        .then((value) => print("User Deleted"))
+        .catchError((error) => print("Failed to delete user: $error"));
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profile'),
@@ -55,8 +85,8 @@ class _ProfileState extends State<Profile> {
                       )
                     ),
                   ),
-                  Text(currUser.displayName!),
-                  Text(currUser.email!)
+                  Text(currUser.displayName ?? ''),
+                  Text(currUser.email ?? '')
                 ],
               )
             ),
@@ -88,90 +118,105 @@ class _ProfileState extends State<Profile> {
         child: Container(
           padding: EdgeInsets.all(10.0),
           color: Colors.white,
-          child: Column(
-            children: [
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Column(
-                    children: [
-                      const Text('Rank'),
-                      Text(
-                        // '${userProv!.rank}',
-                        '',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 42
-                        ),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      const Text('Points'),
-                      Text(
-                        // '${userProv.points}',
-                        '',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 42
-                        ),
-                      ),
-                    ],
-                  )
-                ],
-              ),
-              const SizedBox(height: 32),
-              const Text('Name'),
-              SizedBox(
-                width: 300,
-                child: TextField(
-                  controller: _nameController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 32),
-              SizedBox(
-                width: 300,
-                child: TextField(
-                  controller: _emailController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                  ),
-                  obscureText: true,
-                ),
-              ),
-              const SizedBox(height: 16),
-      
-              SizedBox(
-                child: Row(
+          child: StreamBuilder(
+            stream: _usersStream,
+            builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                return const Center(
+                  child: Text('Something went wrong with the server. Try again later'),
+                );
+              }
+              else if (snapshot.hasData) {
+                print(snapshot.data['points']);
+                return Column(
                   children: [
-                    const Text('Public:'),
-                    Switch(
-                      // This bool value toggles the switch.
-                      value: publicAccount,
-                      activeColor: Colors.red,
-                      onChanged: (bool value) {
-                        if (value == true) {
-                          Map<String, dynamic> changeToPublic = {"public":value};
-                          updatePublicRecord(currUser.uid, changeToPublic);
-                          print('SAVED TO DATABASE');
-                        }
-                        print(value);
-                        // This is called when the user toggles the switch.
-                        setState(() {
-                          publicAccount = value;
-      
-                        });
-                      },
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Column(
+                          children: [
+                            const Text('Points'),
+                            Text(
+                              // '${userProv.points}',
+                              "${snapshot.data['points'] ?? ''}",
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 42
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                    const SizedBox(height: 32),
+                    const Text('Name'),
+                    SizedBox(
+                      width: 300,
+                      child: TextField(
+                        controller: _nameController,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 32),
+                    SizedBox(
+                      width: 300,
+                      child: TextField(
+                        controller: _emailController,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                        ),
+                        obscureText: true,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+        
+                    SizedBox(
+                      child: Row(
+                        children: [
+                          const Text('Public:'),
+                          Switch(
+                            // This bool value toggles the switch.
+                            value: publicAccount,
+                            activeColor: Colors.red,
+                            onChanged: (bool value) {
+                              if (value == true) {
+                                Map<String, dynamic> changeToPublic = {"public":value};
+                                updatePublicRecord(currUser.uid, changeToPublic);
+                                print('SAVED TO DATABASE');
+                                Map<String, dynamic> addToLeaderBoardsData = {
+                                  'docId': currUser.uid, 
+                                  'imageURL': currUser.photoURL ?? '', 
+                                  'points': snapshot.data['points'],
+                                  'userID': currUser.uid,
+                                  'username': currUser.displayName ?? ''
+                                };
+                                addLeaderboards(currUser.uid, addToLeaderBoardsData);
+                              } else {
+                                deleteUserFromLeaderBoards(currUser.uid);
+                              }
+                              print(value);
+                              // This is called when the user toggles the switch.
+                              setState(() {
+                                publicAccount = value;
+        
+                              });
+                            },
+                          )
+                        ],
+                      ),
                     )
-                  ],
-                ),
-              )
-              
-            ]
+                    
+                  ]
+                );
+              }
+              else {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            }
           ),
         ),
       ),

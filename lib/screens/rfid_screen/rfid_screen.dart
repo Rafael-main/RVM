@@ -14,47 +14,25 @@ class RfidScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('GIKAN NI SA RFID ${data}');
     Stream<DocumentSnapshot<Map<String, dynamic>>> checkUserIfHasRFID() => FirebaseFirestore.instance
       .collection('Users')
       .doc(data!.uid)
       .snapshots();
     return Scaffold(
-      body: Container(
-        child: StreamBuilder<Object>(
-          stream: checkUserIfHasRFID(),
-          builder: (context, snapshot) {
-            if (snapshot.hasError){
-              return Center(child: Text('Something Went wrong... ${snapshot.error}'));
-            } else if (snapshot.hasData) {
-              // print(snapshot.data);
-              // Object? docRead = snapshot.data;
-              // print(docRead);
-              // Userr data = Userr.fromJson(snapshot.data as Map<String,dynamic>);
-              // if (data.rfidtag == ''){
-              //   return const Center(
-              //     child: Column(
-              //       children: [
-              //         Text('You are a new user'),
-              //         Text('Please scan your RFID to confirm tag'),
-              //       ],
-              //     ),
-              //   );
-              // }
-              return const Home(title: 'RVM');
-            }else {
-              return const Center(
-                child: Column(
-                  children: [
-                    Text('You are a new user'),
-                    Text('Please scan your RFID to confirm tag'),
-                  ],
-                ),
-              );
-              // return Center(child: CircularProgressIndicator(),);
-            }
+      body: StreamBuilder<Object>(
+        stream: checkUserIfHasRFID(),
+        builder: (context, snapshot) {
+          if (snapshot.hasError){
+            return Center(child: Text('Something Went wrong... ${snapshot.error}'));
+          } else if (snapshot.hasData) {
+            return const Home(title: 'RVM');
+          }else {
+            return const Center(
+              child: Text('You are a new user. Please scan your RFID Tag'),
+            );
+            // return Center(child: CircularProgressIndicator(),);
           }
-        ),
+        }
       ),
     );
   }

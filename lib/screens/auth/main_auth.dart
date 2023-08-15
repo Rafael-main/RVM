@@ -36,7 +36,7 @@ class _SignInPageState extends State<SignInPage> {
                 controller: _usernameSignInController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
-                  labelText: 'Username',
+                  labelText: 'Email',
                   hintText: 'johndoe@email.com',
                 ),
               ),
@@ -66,7 +66,7 @@ class _SignInPageState extends State<SignInPage> {
                   final passSignInProv = Provider.of<PassSignInProvider>(context, listen: false);
                   passSignInProv.passLogin(emailAddress: _usernameSignInController.text, password: _passwordSignInController.text);
                   // Navigator.pushNamedAndRemoveUntil(context, '/home', (_) => false);
-                  // Navigator.pushReplacementNamed(context, '/');
+                  Navigator.pushReplacementNamed(context, '/');
                 },
                 child: const Text('Sign In'),
               ),
