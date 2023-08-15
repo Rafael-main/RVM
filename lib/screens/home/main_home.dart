@@ -37,15 +37,29 @@ class _HomeState extends State<Home> {
 
   Widget buildBoard(Leaderboard ranks, indexRank) => Card(
     child: ListTile(
-    leading: const FlutterLogo(),
-      // // leading: Container(
-      // //   padding: const EdgeInsets.all(8),
-      // //   width: 100,
-      // //   child: const Placeholder()
-      // // ),
-    title: Text('Place ${ranks.username}'),
-    subtitle: Text('Rank # $indexRank'),
-    trailing: Text('${ranks.points} points'),
+      leading: ClipRRect(
+        borderRadius: BorderRadius.circular(60),
+        // child: FlutterLogo(),
+        child: ranks.imageUrl != null ?  CircleAvatar(
+          backgroundImage: NetworkImage(
+            ranks.imageUrl ?? ''
+          ),
+        ) : Container(
+          height: 50,
+          width: 50,
+          color: Colors.black87,
+        )
+      ),
+              
+      // leading: const FlutterLogo(),
+        // // leading: Container(
+        // //   padding: const EdgeInsets.all(8),
+        // //   width: 100,
+        // //   child: const Placeholder()
+        // // ),
+      title: Text('Place ${ranks.username}'),
+      subtitle: Text('Rank # $indexRank'),
+      trailing: Text('${ranks.points} points'),
     ),
   );
  
@@ -77,14 +91,18 @@ class _HomeState extends State<Home> {
                 children: [
                   InkWell(
                     onTap: () {},
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(60),
-                      // child: FlutterLogo(),
-                      child: CircleAvatar(
-                        backgroundImage: NetworkImage(
-                          currUser.photoURL!
-                        ),
-                      )
+                    child: SizedBox(
+                      width: 100,
+                      height: 100,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(60),
+                        // child: FlutterLogo(),
+                        child: currUser.photoURL != null ? CircleAvatar(
+                          backgroundImage: NetworkImage(
+                            currUser.photoURL!
+                          ),
+                        ) : Container(width: 100, height: 100, color: Colors.black87,)
+                      ),
                     ),
                   ),
                   Text(currUser.displayName!),

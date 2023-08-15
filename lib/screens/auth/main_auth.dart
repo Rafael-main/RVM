@@ -20,11 +20,10 @@ class _SignInPageState extends State<SignInPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
+            SizedBox(
               height: 120,
               width:  100,
-              color: Colors.black,
-              child: FlutterLogo()
+              child: Image.asset('assets/img/RVM Logo White BG.png')
             ),
             // Image.asset(
             //   'assets/logo.png',

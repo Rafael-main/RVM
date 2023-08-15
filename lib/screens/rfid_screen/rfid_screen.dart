@@ -10,10 +10,11 @@ import '../../models/user/userr.dart';
 
 class RfidScreen extends StatelessWidget {
   FireUser? data;
-  RfidScreen({FireUser? data, super.key});
+  RfidScreen({this.data, super.key});
 
   @override
   Widget build(BuildContext context) {
+    print('GIKAN NI SA RFID ${data}');
     Stream<DocumentSnapshot<Map<String, dynamic>>> checkUserIfHasRFID() => FirebaseFirestore.instance
       .collection('Users')
       .doc(data!.uid)
@@ -26,20 +27,20 @@ class RfidScreen extends StatelessWidget {
             if (snapshot.hasError){
               return Center(child: Text('Something Went wrong... ${snapshot.error}'));
             } else if (snapshot.hasData) {
-              print(snapshot.data);
-              Object? docRead = snapshot.data;
-              print(docRead);
-              Userr data = Userr.fromJson(snapshot.data as Map<String,dynamic>);
-              if (data.rfidtag == ''){
-                return const Center(
-                  child: Column(
-                    children: [
-                      Text('You are a new user'),
-                      Text('Please scan your RFID to confirm tag'),
-                    ],
-                  ),
-                );
-              }
+              // print(snapshot.data);
+              // Object? docRead = snapshot.data;
+              // print(docRead);
+              // Userr data = Userr.fromJson(snapshot.data as Map<String,dynamic>);
+              // if (data.rfidtag == ''){
+              //   return const Center(
+              //     child: Column(
+              //       children: [
+              //         Text('You are a new user'),
+              //         Text('Please scan your RFID to confirm tag'),
+              //       ],
+              //     ),
+              //   );
+              // }
               return const Home(title: 'RVM');
             }else {
               return const Center(

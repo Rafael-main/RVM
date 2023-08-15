@@ -73,7 +73,8 @@ class Wrapper extends StatelessWidget {
             // WidgetsBinding.instance.addPostFrameCallback((_){
             //   fireUserProv.setFireCurrUser = FireUser.fromJson(data);
             // });
-            print(fireUserProv.getFireCurrUser?.uid ?? 'ALKGJWRLKG');
+            print(fireUserData.uid);
+            print(fireUserData.displayName);
             // final db = FirebaseFirestore.instance;
             // final docRef = db.collection("Users").doc(currUser.uid);
             // print(docRef);
