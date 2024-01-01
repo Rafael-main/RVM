@@ -9,14 +9,24 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 
 import '../models/user/userr.dart';
+import 'dart:math';
 
 
 class Wrapper extends StatelessWidget {
   const Wrapper({super.key});
 
+  int generateRFIDPass() {
+    Random random = Random();
+    const min = 100000;
+    const max = 999999;
+    final randomNumber = min + random.nextInt(max - min + 1);
+    return randomNumber;
+  }
+
 
   @override
   Widget build(BuildContext context) {
+    UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
     Future<void> _showErrorDialog() async {
       return showDialog<void>(
         context: context,
@@ -53,8 +63,6 @@ class Wrapper extends StatelessWidget {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasData) {
             final currUser = FirebaseAuth.instance.currentUser!;
-            print(currUser.providerData);
-            print(currUser.metadata.runtimeType);
             Map<String, dynamic> meta = {
               'creationTime': currUser.metadata.creationTime,
               'lastTimeSignIn': currUser.metadata.lastSignInTime,
@@ -74,16 +82,20 @@ class Wrapper extends StatelessWidget {
             };
             var fireUserData = FireUser.fromJson(data);
 
-            print(fireUserData.uid);
-            print(fireUserData.displayName);
 
             final db = FirebaseFirestore.instance;
             final docRef = db.collection("Users").doc(currUser.uid);
+            final docRefLeaderboards = FirebaseFirestore.instance.collection("Leaderboard").doc(currUser.uid);
+
+            docRefLeaderboards.get().then((doc) {
+              if (doc.exists) {
+                userProvider.setPublicAccount = true;
+              }
+            });
             
             docRef.get().then(
               (doc) {
                 if (doc.exists){
-                  print('doc exissts');
                   // Map<String, dynamic> data = {
                   //   'id': doc['id'],
                   //   'imageUrl': doc['imageURL'],
@@ -107,7 +119,9 @@ class Wrapper extends StatelessWidget {
                     rank: 999, 
                     rfidtag: '', 
                     username: currUser.email ?? '',
-                    name: currUser.displayName ?? ''
+                    name: currUser.displayName ?? '',
+                    rfidpass: generateRFIDPass()
+
                   );
                   db
                   .collection("Users")

@@ -13,6 +13,7 @@ class Userr {
       required this.rfidtag,
       required this.username,
       required this.name,
+      required this.rfidpass,
     });
 
     String id;
@@ -23,6 +24,7 @@ class Userr {
     String rfidtag;   
     String username; 
     String name; 
+    int rfidpass;
 
 
     factory Userr.fromJson(Map<String, dynamic> json) => _$UserrFromJson(json);

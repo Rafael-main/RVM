@@ -40,7 +40,7 @@ class _HomeState extends State<Home> {
       leading: ClipRRect(
         borderRadius: BorderRadius.circular(60),
         // child: FlutterLogo(),
-        child: ranks.imageUrl != null ?  CircleAvatar(
+        child: ranks.imageUrl != null || ranks.imageUrl == '' ?  CircleAvatar(
           backgroundImage: NetworkImage(
             ranks.imageUrl ?? ''
           ),
@@ -82,7 +82,6 @@ class _HomeState extends State<Home> {
                       height: 100,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(60),
-                        // child: FlutterLogo(),
                         child: currUser.photoURL != null ? CircleAvatar(
                           backgroundImage: NetworkImage(
                             currUser.photoURL!
@@ -100,18 +99,7 @@ class _HomeState extends State<Home> {
               leading: const Icon(Icons.person_2_outlined),
               title: const Text('Profile'),
               onTap: () {
-                // Update the state of the app
-                // ...
-                // Then close the drawer
                 Navigator.pushNamedAndRemoveUntil(context, '/profile', (_) => false);
-                // Navigator.push(
-                //   context, MaterialPageRoute(
-                //     builder: (context) {
-                //       return const Profile();
-                //     }
-                //   )
-                // );
-                // Navigator.pop(context);
               },
             ),
             ListTile(

@@ -3,6 +3,7 @@ import 'package:abc/utils/index.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
 class Profile extends StatefulWidget {
   const Profile({super.key});
 
@@ -13,12 +14,14 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> { 
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
-  bool publicAccount = false;
+  // bool publicAccount = false;
 
 
 
   @override
   Widget build(BuildContext context) {
+    UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
+
     // current user logged in
     final currUser = FirebaseAuth.instance.currentUser!;
 
@@ -47,11 +50,11 @@ class _ProfileState extends State<Profile> {
           .catchError((error) => print("Failed to add user: $error"));
     }
     Future<void> deleteUserFromLeaderBoards(uid) {
-      CollectionReference users = FirebaseFirestore.instance.collection('users');
+      CollectionReference users = FirebaseFirestore.instance.collection('Leaderboard');
       return users
         .doc(uid)
         .delete()
-        .then((value) => print("User Deleted"))
+        .then((value) => print("User Deleted from Leaderboards"))
         .catchError((error) => print("Failed to delete user: $error"));
     }
 
@@ -149,62 +152,80 @@ class _ProfileState extends State<Profile> {
                       ],
                     ),
                     const SizedBox(height: 32),
-                    const Text('Name'),
                     SizedBox(
                       width: 300,
-                      child: TextField(
-                        controller: _nameController,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                        ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text('Name'),
+                          TextField(
+                            controller: _nameController,
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                     const SizedBox(height: 32),
                     SizedBox(
                       width: 300,
-                      child: TextField(
-                        controller: _emailController,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                        ),
-                        obscureText: true,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text('Email'),
+                          TextField(
+                            controller: _emailController,
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                            ),
+                            obscureText: true,
+                          ),
+                        ],
                       ),
                     ),
                     const SizedBox(height: 16),
         
-                    SizedBox(
-                      child: Row(
-                        children: [
-                          const Text('Public:'),
-                          Switch(
-                            // This bool value toggles the switch.
-                            value: publicAccount,
-                            activeColor: Colors.red,
-                            onChanged: (bool value) {
-                              if (value == true) {
-                                Map<String, dynamic> changeToPublic = {"public":value};
-                                updatePublicRecord(currUser.uid, changeToPublic);
-                                print('SAVED TO DATABASE');
-                                Map<String, dynamic> addToLeaderBoardsData = {
-                                  'docId': currUser.uid, 
-                                  'imageURL': currUser.photoURL ?? '', 
-                                  'points': snapshot.data['points'],
-                                  'userID': currUser.uid,
-                                  'username': currUser.displayName ?? ''
-                                };
-                                addLeaderboards(currUser.uid, addToLeaderBoardsData);
-                              } else {
-                                deleteUserFromLeaderBoards(currUser.uid);
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(45, 0, 0, 0),
+                      child: SizedBox(
+                        child: Row(
+                          children: [
+                            const Text('Public:'),
+                            Consumer<UserProvider>(
+                              builder: (context, userProv, _) {
+                                return Switch(
+                                  // This bool value toggles the switch.
+                                  value: userProvider.publicAccount,
+                                  activeColor: Colors.red,
+                                  onChanged: (bool value) {
+                                    if (value == true) {
+                                      Map<String, dynamic> changeToPublic = {"public":value};
+                                      updatePublicRecord(currUser.uid, changeToPublic);
+                                      print('SAVED TO DATABASE');
+                                      Map<String, dynamic> addToLeaderBoardsData = {
+                                        'docId': currUser.uid, 
+                                        'imageURL': currUser.photoURL ?? '', 
+                                        'points': snapshot.data['points'],
+                                        'userID': currUser.uid,
+                                        'username': currUser.displayName ?? ''
+                                      };
+                                      addLeaderboards(currUser.uid, addToLeaderBoardsData);
+                                    } else {
+                                      deleteUserFromLeaderBoards(currUser.uid);
+                                    }
+                                    print(value);
+                                    // This is called when the user toggles the switch.
+                                    setState(() {
+                                      userProvider.setPublicAccount = value;
+                                
+                                    });
+                                  },
+                                );
                               }
-                              print(value);
-                              // This is called when the user toggles the switch.
-                              setState(() {
-                                publicAccount = value;
-        
-                              });
-                            },
-                          )
-                        ],
+                            )
+                          ],
+                        ),
                       ),
                     )
                     

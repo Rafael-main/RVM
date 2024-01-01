@@ -15,6 +15,7 @@ Userr _$UserrFromJson(Map<String, dynamic> json) => Userr(
       rfidtag: json['rfidtag'] as String,
       username: json['username'] as String,
       name: json['name'] as String,
+      rfidpass: json['rfidpass'] as int,
     );
 
 Map<String, dynamic> _$UserrToJson(Userr instance) => <String, dynamic>{
@@ -26,4 +27,5 @@ Map<String, dynamic> _$UserrToJson(Userr instance) => <String, dynamic>{
       'rfidtag': instance.rfidtag,
       'username': instance.username,
       'name': instance.name,
+      'rfidpass': instance.rfidpass,
     };
