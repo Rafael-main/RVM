@@ -13,6 +13,8 @@ class RfidScreen extends StatefulWidget {
 }
 
 class _RfidScreenState extends State<RfidScreen> {
+  TextEditingController rfidCardNum = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
 
@@ -29,16 +31,66 @@ class _RfidScreenState extends State<RfidScreen> {
               return Center(child: Text('Something Went wrong... ${snapshot.error}'));
             } else if (snapshot.hasData) {
               var dataUser = snapshot.data!.data();
-              if (dataUser!['rfidtag'] == ''){
+              if (dataUser!['rfidtag'] == '' || dataUser!['rfidtag'] == null){
                 return Center(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text('You are a new user. Please scan your RFID Tag'),
-                      const Text('Once RFID is scanned, please enter the following to the RVM'),
-                      Text('${dataUser['rfidpass']}'),
-                    ],
+                  child: Padding(
+                    padding: const EdgeInsets.all(24.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          'You are a new user. Please scan your RFID Tag',
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.w600
+                          ),
+                        ),
+                        SizedBox(height: 10,),
+                        const Text(
+                          'Once RFID is scanned, please enter the following to the RVM',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w300
+                          ),
+                        ),
+                  
+                        // Text('${dataUser['rfidpass']}'),
+                        Padding(
+                          padding: EdgeInsets.all(8),
+                          child: TextField(
+                            controller: rfidCardNum,
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              hintText: 'Enter your scanned RFID here'
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: double.infinity,
+                          height: 70,
+                          child: Padding(
+                            padding: EdgeInsets.all(8),
+                            child: ElevatedButton(
+                              onPressed: (){
+                                final data = {
+                                  'rfidtag': rfidCardNum.value.text.toString(),
+                                };
+                                          
+                                var db = FirebaseFirestore.instance;
+                                          
+                                db
+                                .collection("Users")
+                                .doc(widget.data!.uid)
+                                .set(data)
+                                .onError((e, _) => print("Error writing document: $e"));
+                              }, 
+                              child: Text('Save my RFID Card')
+                            )
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 );
               } else {
